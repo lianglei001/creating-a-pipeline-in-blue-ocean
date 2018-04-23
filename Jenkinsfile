@@ -13,11 +13,25 @@ pipeline {
       }
     }
     stage('Test') {
-      environment {
-        CI = 'true'
-      }
-      steps {
-        sh './jenkins/scripts/test.sh'
+      parallel {
+        stage('Test') {
+          environment {
+            CI = 'true'
+          }
+          steps {
+            sh './jenkins/scripts/test.sh'
+          }
+        }
+        stage('test01') {
+          steps {
+            sh 'echo \'test01\''
+          }
+        }
+        stage('test02') {
+          steps {
+            sh 'echo \'test02\''
+          }
+        }
       }
     }
     stage('Deliver') {
